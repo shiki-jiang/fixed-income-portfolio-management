@@ -296,6 +296,28 @@ def save_results(daily, weights, attribution, trades, summary, risk, treasury=No
 - Information ratio: {summary['information_ratio'] if summary['information_ratio'] is not None else 'N/A'}.
 - Modeled portfolio transaction costs across backtest: ${summary['total_transaction_cost_usd']:,.0f}.
 
+## Interpretation
+
+The optimization minimizes benchmark-relative risk subject to
+portfolio allocation constraints and a turnover penalty. It does
+not seek to maximize returns or generate alpha.
+
+Over the evaluation period, the optimized portfolio earned a
+cumulative return of {pct(summary['portfolio']['total_return'])},
+compared with {pct(summary['benchmark']['total_return'])}
+for the custom benchmark. Annualized volatility was
+{pct(summary['portfolio']['annualized_volatility'])}
+versus {pct(summary['benchmark']['annualized_volatility'])},
+while maximum drawdown was
+{pct(summary['portfolio']['maximum_drawdown'])}
+versus {pct(summary['benchmark']['maximum_drawdown'])}.
+
+The constrained portfolio experienced slightly lower realized
+volatility and a smaller drawdown, but underperformed the benchmark
+after modeled transaction costs. These are sample-specific outcomes,
+not guaranteed properties of the optimization objective.
+
+
 ## Interest-rate stress test (illustrative inputs only)
 
 - Portfolio value at test end: ${summary['end_nav']:,.0f}.

@@ -58,7 +58,21 @@ A reproducible, **hypothetical** $100m multi-sector bond-ETF portfolio managemen
 - Duration figures are **illustrative assumptions** and only used for an end-of-test static what-if. No current fund snapshot is applied to historical P&L or portfolio optimization.
 - Active contributions exactly reconcile each day including trading costs; sums over many days are not a linked geometric attribution.
 - No forecasted alpha, real bond-level execution, credit spread stress, or key-rate duration is claimed.
+## Empirical Findings
 
+The out-of-sample backtest covers January 4, 2021, through October 30, 2026.
+
+| Metric | Optimized Portfolio | Custom Benchmark |
+|---|---:|---:|
+| Cumulative Return | −7.21% | −6.63% |
+| Annualized Volatility | 6.78% | 7.01% |
+| Maximum Drawdown | −20.05% | −20.74% |
+
+The optimized portfolio achieved slightly lower realized volatility and a smaller maximum drawdown but did not outperform its benchmark. These findings illustrate the trade-off between portfolio constraints, benchmark tracking, and realized performance.
+
+The project demonstrates constrained portfolio construction and risk management rather than a strategy designed to generate alpha.
+
+[View the detailed portfolio review](reports/portfolio_review.md).
 ## Outputs
 
 - `daily.csv`: daily net/gross portfolio returns, benchmark/AGG returns, indexes, drawdowns, turnover, NAVs, trading-cost fractions.
