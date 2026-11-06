@@ -6,3 +6,4 @@ data/*.csv
 outputs/*
 !outputs/.gitkeep
 .idea/
+validation_outputs.zip
