@@ -44,9 +44,9 @@ with tab_performance:
         "agg_index": "AGG reference",
     })
     st.plotly_chart(px.line(history, title="Growth of 100 (adjusted ETF prices)"),
-                    use_container_width=True)
+                    width="stretch")
     st.plotly_chart(px.line(daily[["portfolio_drawdown", "benchmark_drawdown"]],
-                            title="Historical drawdowns"), use_container_width=True)
+                            title="Historical drawdowns"), width="stretch")
     st.caption("Custom benchmark rebalances monthly. Net portfolio performance deducts modeled trading costs.")
 
 with tab_risk:
@@ -63,12 +63,12 @@ with tab_risk:
         "portfolio_weight": "{:.2%}", "benchmark_weight": "{:.2%}",
         "effective_duration_assumption": "{:.2f}",
         "duration_contribution": "{:.2f}", "dv01_usd": "${:,.0f}",
-    }), use_container_width=True)
+    }), width="stretch")
     treasury_path = OUT / "treasury_yields.csv"
     if treasury_path.exists():
         yields = pd.read_csv(treasury_path, index_col=0, parse_dates=True)
         st.plotly_chart(px.line(yields, title="U.S. Treasury par yields (%)"),
-                        use_container_width=True)
+                        width="stretch")
         st.caption("Treasury par yields are plotted for context, not treated as zero-coupon discount curves.")
     else:
         st.info("Treasury curve data were unavailable. Run `python portfolio.py --refresh` to retry.")
@@ -78,14 +78,14 @@ with tab_rebalance:
         "portfolio_weight": "Portfolio", "benchmark_weight": "Drifted benchmark"
     })
     st.plotly_chart(px.bar(current, barmode="group", title="Latest portfolio vs benchmark weights"),
-                    use_container_width=True)
+                    width="stretch")
     st.metric("Total traded weight over test", f"{summary['total_traded_weight']:.2f}x NAV")
     st.metric("Estimated trading costs across test", f"${summary['total_transaction_cost_usd']:,.0f}")
     st.subheader("Latest rebalance trades")
     if not trades.empty:
         last_date = trades["date"].max()
         st.dataframe(trades.loc[trades["date"] == last_date].sort_values("ticker"),
-                     hide_index=True, use_container_width=True)
+                     hide_index=True, width="stretch")
     st.caption("Mandate limits are imposed at each monthly rebalance; weights subsequently drift with returns.")
 
 with tab_attribution:
@@ -93,13 +93,13 @@ with tab_attribution:
     contrib = attribution if recent == "Entire backtest" else attribution.tail(252)
     chart = (contrib[TICKERS].sum() * 100).rename("Contribution (percentage points)")
     st.plotly_chart(px.bar(chart, title="Sum of daily gross active return contributions"),
-                    use_container_width=True)
+                    width="stretch")
     reconciliation = pd.DataFrame({
         "Daily ETF contributions": attribution[TICKERS].sum(axis=1),
         "Daily modeled costs": attribution["trading_cost"],
         "Daily net active return": daily["net_active_return"],
     })
-    st.dataframe(reconciliation.tail(10).style.format("{:.5%}"), use_container_width=True)
+    st.dataframe(reconciliation.tail(10).style.format("{:.5%}"), width="stretch")
     st.caption("Daily contributions reconcile to net active return after costs. "
                "Totals across dates are unlinked arithmetic contributions, not compounded attribution.")
 
